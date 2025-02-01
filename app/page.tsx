@@ -39,7 +39,7 @@ export default function Countdown() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
-    setTimeLeft(calculateTimeLeft()); // Ensures initial render is on the client only
+    setTimeLeft(calculateTimeLeft());
 
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
@@ -48,55 +48,66 @@ export default function Countdown() {
     return () => clearInterval(timer);
   }, []);
 
-  if (!timeLeft) return null; // Prevents server-side mismatches
+  if (!timeLeft) return null;
 
   const timeKeys: (keyof TimeLeft)[] = ["days", "hours", "minutes", "seconds"];
 
   return (
     <div className={`min-h-screen flex flex-col justify-center items-center px-4 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
+      {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
-        className={`absolute top-4 right-4 p-2 ${theme === 'dark' ? 'bg-gray-700' : 'bg-white'} rounded-md shadow-md`}
+        className={`absolute top-4 right-4 p-2 text-sm sm:text-xs lg:text-xl ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'} rounded-md shadow-md`}
       >
         {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
       </button>
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="flex flex-col items-center"
       >
+        {/* Logo */}
         <Image
           src="/logo.png"
           alt="Logo"
-          width={100}
-          height={100}
-          className="mb-6"
+          width={80}
+          height={80}
+          className="mb-4 sm:mb-2"
         />
-        <h1 className="text-3xl font-bold mb-6 text-blue-900">Our Website is coming soon.</h1>
-        <div className="grid grid-cols-4 gap-4 mb-6">
+
+        {/* Heading */}
+        <h1 className="text-2xl lg:text-3xl sm:text-lg font-bold mb-4 text-blue-900 text-center">
+          Our Website is coming soon.
+        </h1>
+
+        {/* Countdown Timer */}
+        <div className="grid grid-cols-4 lg:grid-cols-4 sm:grid-cols-2 gap-4 sm:gap-2 mb-4">
           {timeKeys.map((key) => (
             <motion.div
               key={key}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className={`${theme === 'dark' ? 'bg-blue-600' : 'bg-blue-900 text-white'} rounded-lg shadow-lg py-8 px-16 flex flex-col items-center`}
+              className={`${theme === 'dark' ? 'bg-blue-600' : 'bg-blue-900 text-white'} rounded-lg shadow-lg py-6 px-10 lg:py-8 lg:px-16 sm:py-4 sm:px-6 flex flex-col items-center`}
             >
               <motion.span
                 key={timeLeft[key]}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="text-4xl font-bold"
+                className="lg:text-3xl sm:text-xl font-bold"
               >
                 {timeLeft[key]}
               </motion.span>
-              <span className="mt-2 capitalize text-sm">{key}</span>
+              <span className="mt-1 capitalize text-xs">{key}</span>
             </motion.div>
           ))}
         </div>
-        <p className="text-center text-gray-700 max-w-md">
+
+        {/* Footer Text */}
+        <p className="text-center text-gray-700 max-w-xs text-sm sm:text-xs lg:max-w-full lg:text-2xl">
           We are working to deliver the best experience for our visitors.
         </p>
       </motion.div>
