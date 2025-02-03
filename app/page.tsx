@@ -24,7 +24,7 @@ export default function Countdown() {
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   const calculateTimeLeft = (): TimeLeft => {
-    const targetDate = new Date("2025-02-02T00:00:00");
+    const targetDate = new Date("2026-02-02T00:00:00");
     const now = new Date();
     const difference = targetDate.getTime() - now.getTime();
 
